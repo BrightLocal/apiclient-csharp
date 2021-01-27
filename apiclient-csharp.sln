@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brightlocal", "Brightlocal.csproj", "{A7C327B9-E10C-42AE-A03E-F99549B5261E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brightlocal", "Brightlocal\Brightlocal.csproj", "{A7C327B9-E10C-42AE-A03E-F99549B5261E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples", "..\Examples\Examples.csproj", "{05E58771-1B69-4511-B786-089F774C5D66}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples", "Examples\Examples.csproj", "{05E58771-1B69-4511-B786-089F774C5D66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -16,8 +16,6 @@
     <PackageTags>brightlocal api wrapper helper seo</PackageTags>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Examples\" />
-  </ItemGroup>
+ 
 
 </Project>
