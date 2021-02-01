@@ -51,6 +51,7 @@
     <Compile Include="Api.cs" />
     <Compile Include="ApiResponse.cs" />
     <Compile Include="Batch.cs" />
+    <Compile Include="Exeptions\BatchNotCommitedExeption.cs" />
     <Compile Include="Parametrs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
