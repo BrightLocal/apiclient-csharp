@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Newtonsoft.Json;
+using RestSharp;
 
 namespace Brightlocal
 {
-    public class ApiResponse
+    public class ApiResponse : RestResponse
     {
-        protected int statusCode = 0;
-        protected Dictionary<string, object> result;
-
-        public ApiResponse(int statusCode, Dictionary<string,object> result)
+        public dynamic GetResult()
         {
-            this.statusCode = statusCode;
-            this.result = result;
+            return JsonConvert.DeserializeObject(Content);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Brightlocal
         public Api(string apiKey, string apiSecret, string endpoint = null)
         {
             this.apiKey = apiKey;
-            this.apiSecret = apiSecret;          
+            this.apiSecret = apiSecret;
             if (endpoint != null && Uri.IsWellFormedUriString(endpoint, UriKind.Absolute))
             {
                 this.endpoint = new Uri(endpoint);
@@ -35,27 +35,51 @@ namespace Brightlocal
         }
 
 
-        public dynamic Get(string resource, Parametrs parametrs)
+        public IRestResponse Get(string resource, Parametrs parametrs)
         {
             return Call(resource, parametrs, Method.GET);
         }
 
-        public dynamic Post(string resource, Parametrs parametrs)
+        public IRestResponse Post(string resource, Parametrs parametrs)
         {
             return Call(resource, parametrs, Method.POST);
         }
 
-        public dynamic Delete(string resource, Parametrs parametrs)
+        public IRestResponse Delete(string resource, Parametrs parametrs)
         {
             return Call(resource, parametrs, Method.DELETE);
         }
 
-        public dynamic Put(string resource, Parametrs parametrs)
+        public IRestResponse Put(string resource, Parametrs parametrs)
         {
             return Call(resource, parametrs, Method.PUT);
         }
 
-        private dynamic Call(string resource, Parametrs parametrs, Method method)
+        public Batch CreateBatch(bool stopOnJobError = false, string callbackUrl = null)
+        {
+            Parametrs parametrs = new Parametrs();
+            parametrs.Add("stop-on-job-error", stopOnJobError);
+            if (callbackUrl != null)
+            {
+                parametrs.Add("callback", callbackUrl);
+            }
+            IRestResponse response = Post("/v4/batch", parametrs);
+            dynamic content = JsonConvert.DeserializeObject(response.Content);
+            if (content.success != true)
+            {
+                const string message = "Error creating Batch ";
+                var batchException = new ApplicationException(message + content.errors, content.ErrorException);
+                throw batchException;
+            }
+            return new Batch(this, (int)content["batch-id"]);
+        }
+
+        public Batch GetBatch(int batchId)
+        {
+            return new Batch(this, batchId);
+        }
+
+        private IRestResponse Call(string resource, Parametrs parametrs, Method method)
         {
 
             double expires = CreateExpiresParameter();
@@ -69,7 +93,11 @@ namespace Brightlocal
             // execure the request
             IRestResponse response = client.Execute(request, method);
             // deserialize the response
-            return JsonConvert.DeserializeObject(response.Content);            
+            if (response.ResponseStatus != ResponseStatus.Completed)
+            {
+                throw new ApplicationException(response.ErrorMessage);
+            }
+            return response;
         }
 
 
@@ -97,32 +125,23 @@ namespace Brightlocal
             return Math.Floor(diff.TotalSeconds + MAX_EXPIRY); // Not more than 1800 seconds
         }
 
-        private static RestRequest GetApiRequest(Method method, string url, string apiKey, string sig, double expires, Dictionary<string, object> apiParameters)
+        private static RestRequest GetApiRequest(Method method, string url, string apiKey, string sig, double expires, Dictionary<string, object> parameters)
         {
             // Create a new restsharp request
-            RestRequest request = new RestRequest(url, method);
+            RestRequest request = new RestRequest("https://maksmdkmaskdmka.com", method);
             // Add appropriate headers to request
             request.AddHeader("Content-Type", "application/json");
             request.AddHeader("Accept", "application/json");
-
+            request.AddHeader("content-type", "application/x-www-form-urlencoded");
             // Add key, sig and expires to request
             request.AddParameter("api-key", apiKey);
             request.AddParameter("sig", sig);
             request.AddParameter("expires", expires);
 
-            /*
-            request.Parameters.Add(new Parameter("api-key", apiKey, ParameterType.QueryStringWithoutEncode));
-            request.Parameters.Add(new Parameter("expires", expires, ParameterType.QueryStringWithoutEncode));
-            request.Parameters.Add(new Parameter("api-key", apiKey, ParameterType.QueryStringWithoutEncode));
-            */
-
-            /*dynamic o = new { apikey = apiKey };
-             request.AddParameter(o);*/
-            // Loop through the parameters passed in as a dictionary and add each one to a dynamic object
             // Loop through the parameters passed in as a dictionary and add each one to a dynamic object
             var eo = new ExpandoObject();
             var eoColl = (ICollection<KeyValuePair<string, object>>)eo;
-            foreach (var kvp in apiParameters)
+            foreach (var kvp in parameters)
             {
                 eoColl.Add(kvp);
             }
@@ -131,9 +150,8 @@ namespace Brightlocal
             // Add each parameter to restsharp request
             foreach (var prop in eoDynamic)
             {
-              request.AddParameter(prop.Key, prop.Value);
-            }  /**/
-
+                request.AddParameter(prop.Key, prop.Value);
+            }
             return request;
         }
     }
