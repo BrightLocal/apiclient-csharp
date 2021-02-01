@@ -1,4 +1,4 @@
-﻿using Brigthlocal.Exeptions;
+﻿using Brigthlocal.Exceptions;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
@@ -31,7 +31,7 @@ namespace Brightlocal
             dynamic content = JsonConvert.DeserializeObject(response.Content);
             if (content.success != "true")
             {
-                throw new BatchNotCommitedExeption("An error occurred and we aren\'t able to commit the batch. " + content.errors, content.ErrorException);
+                throw new BatchNotCommitedException("An error occurred and we aren\'t able to commit the batch. " + content.errors, content.ErrorException);
             }
             return true;
         }
@@ -43,7 +43,7 @@ namespace Brightlocal
             dynamic obj = JsonConvert.DeserializeObject(response.Content);
             if (obj.success != "true")
             {
-                throw new BatchNotCommitedExeption("An error occurred and we aren\'t able to commit the batch." + obj.errors, obj.ErrorException);
+                throw new BatchNotCommitedException("An error occurred and we aren\'t able to commit the batch." + obj.errors, obj.ErrorException);
             }
             return obj;
         }
