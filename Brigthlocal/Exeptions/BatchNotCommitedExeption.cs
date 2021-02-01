@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace Brigthlocal.Exeptions
+namespace Brigthlocal.Exceptions
 {
-    class BatchNotCommitedExeption : ApplicationException
+    class BatchNotCommitedException : GeneralException
     {
-        public BatchNotCommitedExeption(string message, Exception inner) : base(message, inner) { }
+        public BatchNotCommitedException(string message, Exception inner) : base(message, inner) { }
     }
 }

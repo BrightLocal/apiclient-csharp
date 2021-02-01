@@ -21,7 +21,7 @@ namespace Brightlocal
         private string apiSecret;
 
         // create an instance of restsharp client
-        RestClient client = new RestClient();
+        private readonly RestClient client = new RestClient();
 
 
         public Api(string apiKey, string apiSecret, string endpoint = null)
@@ -33,7 +33,6 @@ namespace Brightlocal
                 this.endpoint = new Uri(endpoint);
             }
         }
-
 
         public IRestResponse Get(string resource, Parametrs parametrs)
         {
@@ -67,9 +66,7 @@ namespace Brightlocal
             dynamic content = JsonConvert.DeserializeObject(response.Content);
             if (content.success != true)
             {
-                const string message = "Error creating Batch ";
-                var batchException = new ApplicationException(message + content.errors, content.ErrorException);
-                throw batchException;
+                throw new ApplicationException("An error occurred and we weren\'t able to create the batch. " + content.errors, content.ErrorException);                
             }
             return new Batch(this, (int)content["batch-id"]);
         }
@@ -128,7 +125,7 @@ namespace Brightlocal
         private static RestRequest GetApiRequest(Method method, string url, string apiKey, string sig, double expires, Dictionary<string, object> parameters)
         {
             // Create a new restsharp request
-            RestRequest request = new RestRequest("https://maksmdkmaskdmka.com", method);
+            RestRequest request = new RestRequest(url, method);
             // Add appropriate headers to request
             request.AddHeader("Content-Type", "application/json");
             request.AddHeader("Accept", "application/json");

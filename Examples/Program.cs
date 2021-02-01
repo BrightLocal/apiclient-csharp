@@ -15,22 +15,31 @@ namespace Examples
             Console.WriteLine("Welcome to Brightlocal testing tool.");
             do
             {
-                Console.WriteLine("Please enter a command. Supported command is 'batch', 'local directories'");
-                Console.WriteLine("Type 'exit' to go close application");
-                string command = Console.ReadLine();
-                switch (command)
+                try
                 {
-                    case "batch":
-                        BatchExample.Process(apiKey, apiSecret);
-                        break;
-                    case "local directories":
-                        BatchExample.Process(apiKey, apiSecret);
-                        break;
-                    case "exit":
-                        return;
-                    default:
-                        Console.WriteLine("Unsupported command '{0}'", command);
-                        break;
+                    Console.WriteLine("Please enter a command. Supported command is 'batch', 'local directories'");
+                    Console.WriteLine("Type 'exit' to go close application");
+                    string command = Console.ReadLine();
+                    switch (command.Trim())
+                    {
+                        case "batch":
+                            BatchExample.Process(apiKey, apiSecret);
+                            break;
+                        case "local directories":
+                            BatchExample.Process(apiKey, apiSecret);
+                            break;
+                        case "exit":
+                            Environment.Exit(1);
+                            break;
+                        default:
+                            Console.WriteLine("Unsupported command '{0}'", command);
+                            break;
+                    }
+                }
+                catch (Brigthlocal.Exceptions.GeneralException exception)
+                {
+                    Console.WriteLine(exception.Message);
+                    Console.ReadLine();
                 }
             } while (true);
         }
@@ -38,15 +47,14 @@ namespace Examples
         public static int GetIntegerValue(string message)
         {
             Console.WriteLine(message);
-            int number;
             do
             {
                 string input = Console.ReadLine();
-                if(input == "exit")
+                if (input == "exit")
                 {
                     Environment.Exit(1);
                 }
-                bool success = Int32.TryParse(input, out number);
+                bool success = Int32.TryParse(input, out int number);
                 if (success)
                 {
                     return number;
