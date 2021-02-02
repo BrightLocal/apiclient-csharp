@@ -2,5 +2,5 @@
 
 namespace Brightlocal
 {
-    public class Parametrs : Dictionary<string, object> { }
+    public class Parameters : Dictionary<string, object> { }
 }
