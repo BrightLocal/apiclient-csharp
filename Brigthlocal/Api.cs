@@ -34,29 +34,29 @@ namespace Brightlocal
             }
         }
 
-        public IRestResponse Get(string resource, Parametrs parametrs)
+        public IRestResponse Get(string resource, Parameters parametrs)
         {
             return Call(resource, parametrs, Method.GET);
         }
 
-        public IRestResponse Post(string resource, Parametrs parametrs)
+        public IRestResponse Post(string resource, Parameters parametrs)
         {
             return Call(resource, parametrs, Method.POST);
         }
 
-        public IRestResponse Delete(string resource, Parametrs parametrs)
+        public IRestResponse Delete(string resource, Parameters parametrs)
         {
             return Call(resource, parametrs, Method.DELETE);
         }
 
-        public IRestResponse Put(string resource, Parametrs parametrs)
+        public IRestResponse Put(string resource, Parameters parametrs)
         {
             return Call(resource, parametrs, Method.PUT);
         }
 
         public Batch CreateBatch(bool stopOnJobError = false, string callbackUrl = null)
         {
-            Parametrs parametrs = new Parametrs();
+            Parameters parametrs = new Parameters();
             parametrs.Add("stop-on-job-error", stopOnJobError);
             if (callbackUrl != null)
             {
@@ -76,7 +76,7 @@ namespace Brightlocal
             return new Batch(this, batchId);
         }
 
-        private IRestResponse Call(string resource, Parametrs parametrs, Method method)
+        private IRestResponse Call(string resource, Parameters parametrs, Method method)
         {
 
             double expires = CreateExpiresParameter();

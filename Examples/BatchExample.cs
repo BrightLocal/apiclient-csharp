@@ -14,30 +14,32 @@ namespace Examples
         {
             do
             {
-                Console.WriteLine("Now you can 'create', 'commit', 'get result', 'delete', 'stop'. Plese enter a command. Type 'exit' to go to main menu.");
+                Console.WriteLine("Now you can 'create' or 1, 'commit' or 2, 'get result' or 3, 'delete' or 4, 'stop' or 5. Plese enter a command. Type 'exit' to go to main menu.");
                 string command = Console.ReadLine();
-                switch (command)
+                switch (command.Trim())
                 {
                     case "create":
+                    case "1":
                         CreateBatch(apiKey, apiSecret);
                         break;
                     case "commit":
+                    case "2":
                         int batchId = Program.GetIntegerValue("Enter batch id that you want to commit");
                         CommitBatch(apiKey, apiSecret, batchId);
                         break;
                     case "get result":
-                        Console.WriteLine("Enter batch id from what you want to get result");
-                        int batchIdForGetResult = Convert.ToInt32(Console.ReadLine());
+                    case "3":
+                        int batchIdForGetResult = Program.GetIntegerValue("Enter batch id from what you want to get result");
                         GetResult(apiKey, apiSecret, batchIdForGetResult);
                         break;
                     case "delete":
-                        Console.WriteLine("Enter batch id that you want to delete");
-                        int batchIdForDelete = Convert.ToInt32(Console.ReadLine());
+                    case "4":
+                        int batchIdForDelete = Program.GetIntegerValue("Enter batch id that you want to delete");
                         Delete(apiKey, apiSecret, batchIdForDelete);
                         break;
                     case "stop":
-                        Console.WriteLine("Enter batch id that you want to delete");
-                        int batchIdForStop = Convert.ToInt32(Console.ReadLine());
+                    case "5":
+                        int batchIdForStop = Program.GetIntegerValue("Enter batch id that you want to stop");
                         Delete(apiKey, apiSecret, batchIdForStop);
                         break;
                     case "exit":
@@ -68,16 +70,23 @@ namespace Examples
         {
             Api api = new Api(apiKey, apiSecret);
             Batch batch = api.GetBatch(batchId);
-            Console.WriteLine(batch.GetResults());
-            
+            Console.WriteLine(batch.GetResults());            
         }
 
         public static void Delete(string apiKey, string apiSecret, int batchId)
         {
             Api api = new Api(apiKey, apiSecret);
             Batch batch = api.GetBatch(batchId);
-            batch.Commit();
-            Console.WriteLine("Batch committed successfully");
+            batch.Delete();
+            Console.WriteLine("Batch deleted successfully");
+        }
+
+        public static void Stop(string apiKey, string apiSecret, int batchId)
+        {
+            Api api = new Api(apiKey, apiSecret);
+            Batch batch = api.GetBatch(batchId);
+            batch.Stop();
+            Console.WriteLine("Batch stoped successfully");
         }
     }
 }

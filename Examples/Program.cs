@@ -17,16 +17,18 @@ namespace Examples
             {
                 try
                 {
-                    Console.WriteLine("Please enter a command. Supported command is 'batch', 'local directories'");
+                    Console.WriteLine("Please enter a command. Supported command is 'batch' or 1, 'local directories' or 2");
                     Console.WriteLine("Type 'exit' to go close application");
                     string command = Console.ReadLine();
                     switch (command.Trim())
                     {
                         case "batch":
+                        case "1":
                             BatchExample.Process(apiKey, apiSecret);
                             break;
                         case "local directories":
-                            BatchExample.Process(apiKey, apiSecret);
+                        case "2":
+                            LocalDirectoriesExamples.Process(apiKey, apiSecret);
                             break;
                         case "exit":
                             Environment.Exit(1);

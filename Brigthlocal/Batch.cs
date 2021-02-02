@@ -25,9 +25,9 @@ namespace Brightlocal
 
         public bool Commit()
         {
-            Parametrs parameters = new Parametrs();
+            Parameters parameters = new Parameters();
             parameters.Add("batch-id", id);
-            dynamic response = api.Put("v4/batch", parameters);
+            IRestResponse response = api.Put("v4/batch", parameters);
             dynamic content = JsonConvert.DeserializeObject(response.Content);
             if (content.success != "true")
             {
@@ -37,13 +37,50 @@ namespace Brightlocal
         }
         public dynamic GetResults()
         {
-            Parametrs parameters = new Parametrs();
+            Parameters parameters = new Parameters();
             parameters.Add("batch-id", id);
-            dynamic response = api.Get("/v4/batch", parameters);
+            IRestResponse response = api.Get("/v4/batch", parameters);
             dynamic obj = JsonConvert.DeserializeObject(response.Content);
             if (obj.success != "true")
             {
                 throw new BatchNotCommitedException("An error occurred and we aren\'t able to commit the batch." + obj.errors, obj.ErrorException);
+            }
+            return obj;
+        }
+        
+        public bool Delete()
+        {
+            Parameters parameters = new Parameters();
+            parameters.Add("batch-id", id);
+            IRestResponse response = api.Delete("/v4/batch", parameters);
+            dynamic obj = JsonConvert.DeserializeObject(response.Content);
+            if (obj.success != true)
+            {
+                throw new BatchNotCommitedException("An error occurred and we aren\'t able to delete the batch." + obj.errors, obj.ErrorException);
+            }
+            return true;
+        }
+
+        public bool Stop()
+        {
+            Parameters parameters = new Parameters();
+            parameters.Add("batch-id", id);
+            IRestResponse response = api.Put("/v4/batch/stop", parameters);
+            dynamic obj = JsonConvert.DeserializeObject(response.Content);
+            if (obj.success != true)
+            {
+                throw new GeneralException("An error occurred and we aren\'t able to stop the batch." + obj.errors, obj.ErrorException);
+            }
+            return true;
+        }
+        public dynamic AddJob(string resource, Parameters parameters)
+        {
+            parameters.Add("batch-id", id);
+            IRestResponse response = api.Post(resource, parameters);
+            dynamic obj = JsonConvert.DeserializeObject(response.Content);
+            if (obj.success != true)
+            {
+                throw new GeneralException("An error occurred and we aren\'t able to add job to the batch." + obj.errors, obj.ErrorException);
             }
             return obj;
         }
