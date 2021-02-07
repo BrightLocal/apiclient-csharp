@@ -49,15 +49,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api.cs" />
-    <Compile Include="ApiResponse.cs" />
     <Compile Include="Batch.cs" />
+    <Compile Include="Exeptions\GetResultExeption.cs" />
+    <Compile Include="Exeptions\CreateBatchExeption.cs" />
+    <Compile Include="Exeptions\StopBatchExeption.cs" />
+    <Compile Include="Exeptions\AddJobExeption.cs" />
     <Compile Include="Exeptions\BatchNotCreatedExeption.cs" />
     <Compile Include="Exeptions\BatchNotCommitedExeption.cs" />
     <Compile Include="Exeptions\GeneralExeption.cs" />
     <Compile Include="Parameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Response.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="nuget.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
