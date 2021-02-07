@@ -6,7 +6,7 @@ namespace Examples
     class Program
     {
 
-        static void Main(string[] args)
+        static void Main()
         {
             string apiKey = "1a3c2fa6735f089a2a1dd4fa11067807383bd08c";
             string apiSecret = "5a0ae446a98a1";
@@ -17,7 +17,7 @@ namespace Examples
             {
                 try
                 {
-                    Console.WriteLine("Please enter a command. Supported command is 'batch' or 1, 'local directories' or 2");
+                    Console.WriteLine("Please enter a command. Supported command is 'batch' or 1, 'local directories' or 2, 'reputation manager' or 3");
                     Console.WriteLine("Type 'exit' to go close application");
                     string command = Console.ReadLine();
                     switch (command.Trim())
@@ -29,6 +29,10 @@ namespace Examples
                         case "local directories":
                         case "2":
                             LocalDirectoriesExamples.Process(apiKey, apiSecret);
+                            break;
+                        case "reputation manager":
+                        case "3":
+                            ReputationManagerExamples.Process(apiKey, apiSecret);
                             break;
                         case "exit":
                             Environment.Exit(1);
@@ -56,7 +60,7 @@ namespace Examples
                 {
                     Environment.Exit(1);
                 }
-                bool success = Int32.TryParse(input, out int number);
+                bool success = int.TryParse(input, out int number);
                 if (success)
                 {
                     return number;

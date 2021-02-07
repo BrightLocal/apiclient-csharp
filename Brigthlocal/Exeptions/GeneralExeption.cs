@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Brigthlocal.Exceptions
 {
-    public class GeneralException: ApplicationException
+    public class GeneralException: Exception
     {
         public GeneralException(string message, Exception inner) : base(message, inner) { }
     }

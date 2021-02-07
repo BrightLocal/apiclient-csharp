@@ -1,24 +1,22 @@
-﻿using Newtonsoft.Json;
+﻿using Brigthlocal;
+using Brigthlocal.Exceptions;
 using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Security.Cryptography;
-using System.Web;
 
 namespace Brightlocal
 {
 
     public class Api
     {
-        /** API endpoint URL */
-        const string ENDPOINT = "https://tools.brightlocal.com/seo-tools/api";
         /** expiry can't be more than 30 minutes (1800 seconds) */
-        const int MAX_EXPIRY = 1800;
-
-        private Uri endpoint = new Uri("https://tools.brightlocal.com/seo-tools/api/");
-        private string apiKey;
-        private string apiSecret;
+        private const int MAX_EXPIRY = 1800;
+        /** API endpoint URL */
+        private readonly Uri endpoint = new Uri("https://tools.brightlocal.com/seo-tools/api");
+        private readonly string apiKey;
+        private readonly string apiSecret;
 
         // create an instance of restsharp client
         private readonly RestClient client = new RestClient();
@@ -34,41 +32,42 @@ namespace Brightlocal
             }
         }
 
-        public IRestResponse Get(string resource, Parameters parametrs)
+        public Response Get(string resource, Parameters parametrs)
         {
             return Call(resource, parametrs, Method.GET);
         }
 
-        public IRestResponse Post(string resource, Parameters parametrs)
+        public Response Post(string resource, Parameters parametrs)
         {
             return Call(resource, parametrs, Method.POST);
         }
 
-        public IRestResponse Delete(string resource, Parameters parametrs)
+        public Response Delete(string resource, Parameters parametrs)
         {
             return Call(resource, parametrs, Method.DELETE);
         }
 
-        public IRestResponse Put(string resource, Parameters parametrs)
+        public Response Put(string resource, Parameters parametrs)
         {
             return Call(resource, parametrs, Method.PUT);
         }
 
         public Batch CreateBatch(bool stopOnJobError = false, string callbackUrl = null)
         {
-            Parameters parametrs = new Parameters();
-            parametrs.Add("stop-on-job-error", stopOnJobError);
+            Parameters parametrs = new Parameters
+            {
+                { "stop-on-job-error", stopOnJobError }
+            };
             if (callbackUrl != null)
             {
                 parametrs.Add("callback", callbackUrl);
             }
-            IRestResponse response = Post("/v4/batch", parametrs);
-            dynamic content = JsonConvert.DeserializeObject(response.Content);
-            if (content.success != true)
+            Response response = Post("/v4/batch", parametrs);
+            if (!response.IsSuccess())
             {
-                throw new ApplicationException("An error occurred and we weren\'t able to create the batch. " + content.errors, content.ErrorException);                
+                throw new CreateBatchExeption("An error occurred and we weren\'t able to create the batch. " + response.GetContent(), new Exception());
             }
-            return new Batch(this, (int)content["batch-id"]);
+            return new Batch(this, (int)response.GetContent()["batch-id"]);
         }
 
         public Batch GetBatch(int batchId)
@@ -76,9 +75,8 @@ namespace Brightlocal
             return new Batch(this, batchId);
         }
 
-        private IRestResponse Call(string resource, Parameters parametrs, Method method)
+        private Response Call(string resource, Parameters parametrs, Method method)
         {
-
             double expires = CreateExpiresParameter();
             // set base url   
             client.BaseUrl = endpoint;
@@ -92,9 +90,9 @@ namespace Brightlocal
             // deserialize the response
             if (response.ResponseStatus != ResponseStatus.Completed)
             {
-                throw new ApplicationException(response.ErrorMessage);
+                throw new GeneralException(response.ErrorMessage, new Exception());
             }
-            return response;
+            return new Response(response);
         }
 
 
@@ -111,7 +109,6 @@ namespace Brightlocal
                 return signature;
                 /*return HttpUtility.UrlEncode(signature);*/
             }
-
         }
 
         // Create expires paramater for signature and api requests
@@ -127,13 +124,14 @@ namespace Brightlocal
             // Create a new restsharp request
             RestRequest request = new RestRequest(url, method);
             // Add appropriate headers to request
-            request.AddHeader("Content-Type", "application/json");
-            request.AddHeader("Accept", "application/json");
-            request.AddHeader("content-type", "application/x-www-form-urlencoded");
-            // Add key, sig and expires to request
-            request.AddParameter("api-key", apiKey);
-            request.AddParameter("sig", sig);
-            request.AddParameter("expires", expires);
+            request
+                .AddHeader("Content-Type", "application/json")
+                .AddHeader("Accept", "application/json")
+                .AddHeader("content-type", "application/x-www-form-urlencoded")
+                // Add key, sig and expires to request
+                .AddParameter("api-key", apiKey)
+                .AddParameter("sig", sig)
+                .AddParameter("expires", expires);
 
             // Loop through the parameters passed in as a dictionary and add each one to a dynamic object
             var eo = new ExpandoObject();
