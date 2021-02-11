@@ -1,5 +1,6 @@
 ﻿using Brigthlocal;
 using Brigthlocal.Exceptions;
+using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -32,22 +33,22 @@ namespace Brightlocal
             }
         }
 
-        public Response Get(string resource, Parameters parametrs)
+        public Response Get(string resource, Parameters parametrs = null)
         {
             return Call(resource, parametrs, Method.GET);
         }
 
-        public Response Post(string resource, Parameters parametrs)
+        public Response Post(string resource, Parameters parametrs = null)
         {
             return Call(resource, parametrs, Method.POST);
         }
 
-        public Response Delete(string resource, Parameters parametrs)
+        public Response Delete(string resource, Parameters parametrs = null)
         {
             return Call(resource, parametrs, Method.DELETE);
         }
 
-        public Response Put(string resource, Parameters parametrs)
+        public Response Put(string resource, Parameters parametrs = null)
         {
             return Call(resource, parametrs, Method.PUT);
         }
@@ -119,7 +120,7 @@ namespace Brightlocal
             return Math.Floor(diff.TotalSeconds + MAX_EXPIRY); // Not more than 1800 seconds
         }
 
-        private static RestRequest GetApiRequest(Method method, string url, string apiKey, string sig, double expires, Dictionary<string, object> parameters)
+        private static RestRequest GetApiRequest(Method method, string url, string apiKey, string sig, double expires, Parameters parameters)
         {
             // Create a new restsharp request
             RestRequest request = new RestRequest(url, method);
@@ -133,20 +134,42 @@ namespace Brightlocal
                 .AddParameter("sig", sig)
                 .AddParameter("expires", expires);
 
+            if (parameters != null)
+            {
+                foreach (KeyValuePair<string, object> prop in parameters)
+                {
+                    request.AddParameter(prop.Key, prop.Value);
+                }
+            }
             // Loop through the parameters passed in as a dictionary and add each one to a dynamic object
-            var eo = new ExpandoObject();
-            var eoColl = (ICollection<KeyValuePair<string, object>>)eo;
-            foreach (var kvp in parameters)
-            {
-                eoColl.Add(kvp);
-            }
-            dynamic eoDynamic = eo;
+            /* 
+                 ExpandoObject eo = new ExpandoObject();
+                 ICollection<KeyValuePair<string, object>> eoColl = (ICollection<KeyValuePair<string, object>>)eo;
+                 foreach (KeyValuePair<string, object> kvp in parameters)
+                 {
+                     Console.WriteLine(kvp.Value.GetType().Name);
+                     Console.WriteLine(kvp.Value.GetType());
+                     Console.WriteLine(typeof(List<>));
+                     if (kvp.Value.GetType() == typeof(List<Object>))
+                     {
+                         Console.WriteLine("lis");
+                         kvp.Value = JsonConvert.SerializeObject(kvp.Value);
 
-            // Add each parameter to restsharp request
-            foreach (var prop in eoDynamic)
-            {
-                request.AddParameter(prop.Key, prop.Value);
-            }
+                     }
+                     else
+                     {
+                        eoColl.Add(kvp);
+                     }
+
+                 }
+                 dynamic eoDynamic = eo;
+
+                 // Add each parameter to restsharp request
+                 foreach (var prop in eoDynamic)
+                 {
+                     request.AddParameter(prop.Key, prop.Value);
+                 }
+             }*/            
             return request;
         }
     }
