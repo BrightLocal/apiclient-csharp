@@ -21,8 +21,10 @@ namespace Brightlocal
 
         public bool Commit()
         {
-            Parameters parameters = new Parameters();
-            parameters.Add("batch-id", id);
+            Parameters parameters = new Parameters
+            {
+                { "batch-id", id }
+            };
             Response response = api.Put("v4/batch", parameters);
             if (!response.IsSuccess())
             {

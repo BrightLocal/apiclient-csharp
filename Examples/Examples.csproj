@@ -48,10 +48,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BatchExample.cs" />
+    <Compile Include="RankCheckerExamples.cs" />
+    <Compile Include="ClientsExample.cs" />
+    <Compile Include="OffsiteSeoExample.cs" />
+    <Compile Include="RankingsExamples.cs" />
     <Compile Include="ReputationManagerExamples.cs" />
     <Compile Include="LocalDirectoriesExamples.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReviewsExamples.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
