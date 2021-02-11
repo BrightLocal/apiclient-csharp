@@ -11,7 +11,6 @@ namespace Examples
             string apiKey = "1a3c2fa6735f089a2a1dd4fa11067807383bd08c";
             string apiSecret = "5a0ae446a98a1";
 
-
             Console.WriteLine("Welcome to Brightlocal testing tool.");
             do
             {
