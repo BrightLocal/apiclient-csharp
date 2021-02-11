@@ -34,6 +34,26 @@ namespace Examples
                         case "3":
                             ReputationManagerExamples.Process(apiKey, apiSecret);
                             break;
+                        case "reviews":
+                        case "4":
+                            ReviewsExamples.Process(apiKey, apiSecret);
+                            break;
+                        case "rankings":
+                        case "5":
+                            RankingsExamples.Process(apiKey, apiSecret);
+                            break;
+                        case "offsite seo":
+                        case "6":
+                            OffsiteSeoExample.Process(apiKey, apiSecret);
+                            break;
+                       case "clients":
+                        case "7":
+                            ClientsExample.Process(apiKey, apiSecret);
+                            break;
+                        case "rank checker":
+                        case "8":
+                            RankCheckerExamples.Process(apiKey, apiSecret);
+                            break;
                         case "exit":
                             Environment.Exit(1);
                             break;
