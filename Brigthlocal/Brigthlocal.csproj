@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -10,8 +10,22 @@
     <RootNamespace>Brigthlocal</RootNamespace>
     <AssemblyName>Brigthlocal</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFramework>net47</TargetFramework>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>2.0.0.0</Version>
+    <Product>Brigthlocal ApiWrapper</Product>
+    <Copyright>Brigthlocal INC</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://tools.brightlocal.com</PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageId>Brigthlocal.apiclient-csharp</PackageId>
+    <Description>This library helps communicate with BrightLocal api faster</Description>
+    <RepositoryUrl>https://github.com/BrightLocal/apiclient-csharp</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <PackageTags>Brigthlocal, API, Wrapper,</PackageTags>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,22 +62,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api.cs" />
+    <!--<Compile Include="Api.cs" />
     <Compile Include="Batch.cs" />
-    <Compile Include="Exeptions\GetResultExeption.cs" />
-    <Compile Include="Exeptions\CreateBatchExeption.cs" />
-    <Compile Include="Exeptions\StopBatchExeption.cs" />
-    <Compile Include="Exeptions\AddJobExeption.cs" />
-    <Compile Include="Exeptions\BatchNotCreatedExeption.cs" />
-    <Compile Include="Exeptions\BatchNotCommitedExeption.cs" />
-    <Compile Include="Exeptions\GeneralExeption.cs" />
+    <Compile Include="Exceptions\GetResultException.cs" />
+    <Compile Include="Exceptions\CreateBatchException.cs" />
+    <Compile Include="Exceptions\StopBatchException.cs" />
+    <Compile Include="Exceptions\AddJobException.cs" />
+    <Compile Include="Exceptions\BatchNotCreatedException.cs" />
+    <Compile Include="Exceptions\BatchNotCommitedExeption.cs" />
+    <Compile Include="Exceptions\GeneralException.cs" />
     <Compile Include="Parameters.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Response.cs" />
+    <Compile Include="Response.cs" />-->
   </ItemGroup>
   <ItemGroup>
+    <None Include="logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="nuget.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
