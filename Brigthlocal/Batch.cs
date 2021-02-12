@@ -66,7 +66,7 @@ namespace Brightlocal
             Response response = api.Put("/v4/batch/stop", parameters);
             if (!response.IsSuccess())
             {
-                throw new StopBatchExeption("An error occurred and we aren\'t able to stop the batch." + response.GetContent().errors, new System.Exception());
+                throw new StopBatchException("An error occurred and we aren\'t able to stop the batch." + response.GetContent().errors, new System.Exception());
             }
             return true;
         }

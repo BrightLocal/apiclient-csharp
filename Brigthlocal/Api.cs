@@ -9,7 +9,6 @@ using System.Security.Cryptography;
 
 namespace Brightlocal
 {
-
     public class Api
     {
         /** expiry can't be more than 30 minutes (1800 seconds) */
@@ -66,7 +65,7 @@ namespace Brightlocal
             Response response = Post("/v4/batch", parametrs);
             if (!response.IsSuccess())
             {
-                throw new CreateBatchExeption("An error occurred and we weren\'t able to create the batch. " + response.GetContent(), new Exception());
+                throw new CreateBatchException("An error occurred and we weren\'t able to create the batch. " + response.GetContent(), new Exception());
             }
             return new Batch(this, (int)response.GetContent()["batch-id"]);
         }
