@@ -13,7 +13,7 @@ namespace Examples
         {
             do
             {
-                Console.WriteLine("Now you can 'search' or 1, 'bulk search' or 2. Plese enter a command. Type 'exit' to go to main menu.");
+                Console.WriteLine("Now you can 'search' or 1, 'bulk search' or 2. Plese enter a command. Type 'exit' or 0 to go to main menu.");
                 string command = Console.ReadLine();
                 switch (command.Trim())
                 {
@@ -26,6 +26,7 @@ namespace Examples
                         BulkSearch(apiKey, apiSecret);
                         break;
                     case "exit":
+                    case "0":
                         return;
                     default:
                         Console.WriteLine("Unsupported command");
@@ -36,46 +37,45 @@ namespace Examples
 
         private static void Search(string apiKey, string apiSecret)
         {
-
-            List<object> searches = new List<object>
+           
+            List<Parameters> searches = new List<Parameters>
             {
-                new
+                new Parameters
                 {
-                    search_engine = "google",
-                    country = "USA",
-                    google_location = "New York, NY",
-                    search_term = "restaurant new york",
-                    urls = JsonConvert.SerializeObject(new List<string> { "le-bernardin.com" }),
-                    business_names = JsonConvert.SerializeObject(new List<string>() { "Le Bernardin" })
+                    ["search-engine"] = "google",
+                    ["country"] = "USA",
+                    ["google-location"] = "New York, NY",
+                    ["search-term"] = "restaurant new york" ,
+                    ["urls"] = JsonConvert.SerializeObject(new List<string> { "le-bernardin.com" }) ,
+                    ["business-names"] = JsonConvert.SerializeObject(new List<string>() { "Le Bernardin" })
                 },
-                new
+                new Parameters
                 {
-                    search_engine = "google",
-                    country = "USA",
-                    google_location = "New York, NY",
-                    search_term = "restaurant manhattan",
-                    urls = JsonConvert.SerializeObject( new List<string> { "le-bernardin.com" }),
-                    business_names = JsonConvert.SerializeObject( new List<string>() { "Le Bernardin" })
+                    ["search-engine"] = "google",
+                    ["country"] = "USA",
+                    ["google-location"] = "New York, NY",
+                    ["search-term"] = "restaurant manhattan",
+                    ["urls"] = JsonConvert.SerializeObject( new List<string> { "le-bernardin.com" }),
+                    ["business-names"] = JsonConvert.SerializeObject( new List<string>() { "Le Bernardin" })
                 },
-                new
+                new Parameters
                 {
-                    search_engine = "google",
-                    country = "USA",
-                    google_location = "New York, NY",
-                    search_term = "restaurant 10019",
-                    urls =JsonConvert.SerializeObject( new List<string> { "le-bernardin.com" }),
-                    business_names = JsonConvert.SerializeObject(new List<string>() { "Le Bernardin" })
+                    ["search-engine"] = "google",
+                    ["country"] = "USA",
+                    ["google-location"] = "New York, NY",
+                    ["search-term"] = "restaurant 10019",
+                    ["urls"] = JsonConvert.SerializeObject(new List<string> { "le-bernardin.com" }),
+                    ["business-names"] = JsonConvert.SerializeObject(new List<string>() { "Le Bernardin" })
                 }
             };
 
             Api api = new Api(apiKey, apiSecret);
             Batch batch = api.CreateBatch();
             Console.WriteLine("Created batch ID {0}", batch.GetId());
-            foreach (object search in searches)
+            foreach (Parameters parameters in searches)
             {
                 try
                 {
-                    Parameters parameters = new Parameters(search);
                     // Add jobs to batch
                     dynamic jobResponse = batch.AddJob("/v4/rankings/search", parameters);
                     Console.WriteLine("Added job with ID {0}", jobResponse["job-id"]);
@@ -109,21 +109,20 @@ namespace Examples
             Api api = new Api(apiKey, apiSecret);
             Batch batch = api.CreateBatch();
             Console.WriteLine("Created batch ID {0}", batch.GetId());
-            Parameters parameters = new Parameters(
-                new
-                {
-                    search_engine = "google",
-                    country = "USA",
-                    google_location = "New York, NY",
-                    search_terms = JsonConvert.SerializeObject(searches),
-                    urls = JsonConvert.SerializeObject(new List<string> { "le-bernardin.com" }),
-                    business_names = JsonConvert.SerializeObject(new List<string> { "Le Bernardin" })
-                });
+            Parameters parameters = new Parameters
+            {
+                ["search-engine"] = "google",
+                ["country"] = "USA",
+                ["google-location"] = "New York, NY",
+                ["search-terms"] = JsonConvert.SerializeObject(searches),
+                ["urls"] = JsonConvert.SerializeObject(new List<string> { "le-bernardin.com" }),
+                ["business-names"] = JsonConvert.SerializeObject(new List<string>() { "Le Bernardin" })
+            };
             try
             {
                 // Add jobs to batch
                 dynamic jobResponse = batch.AddJob("/v4/rankings/bulk-search", parameters);
-                Console.WriteLine("Added job with ID {0}", jobResponse["job-id"]);
+                Console.WriteLine("Added job with IDs {0}", jobResponse["job-ids"]);
             }
             catch (GeneralException exception)
             {
