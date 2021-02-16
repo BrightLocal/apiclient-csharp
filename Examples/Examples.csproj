@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BatchExample.cs" />
+    <Compile Include="LocationsExample.cs" />
     <Compile Include="RankCheckerExamples.cs" />
     <Compile Include="ClientsExample.cs" />
     <Compile Include="OffsiteSeoExample.cs" />

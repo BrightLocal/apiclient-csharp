@@ -16,7 +16,9 @@ namespace Examples
             {
                 try
                 {
-                    Console.WriteLine("Please enter a command. Supported command is 'batch' or 1, 'local directories' or 2, 'reputation manager' or 3");
+                    Console.WriteLine("Please enter a command. Supported command is 'batch' or 1, 'local directories' or 2," +
+                        " 'reputation manager' or 3, 'reviews' or 4, 'rankings' or 5, 'offsite seo' or 6," +
+                        " 'clients' or 7, 'rank checker' or 8, 'locations' or 9");
                     Console.WriteLine("Type 'exit' to go close application");
                     string command = Console.ReadLine();
                     switch (command.Trim())
@@ -45,13 +47,17 @@ namespace Examples
                         case "6":
                             OffsiteSeoExample.Process(apiKey, apiSecret);
                             break;
-                       case "clients":
+                        case "clients":
                         case "7":
                             ClientsExample.Process(apiKey, apiSecret);
                             break;
                         case "rank checker":
                         case "8":
                             RankCheckerExamples.Process(apiKey, apiSecret);
+                            break;
+                        case "locations":
+                        case "9":
+                            LocationsExample.Process(apiKey, apiSecret);
                             break;
                         case "exit":
                             Environment.Exit(1);

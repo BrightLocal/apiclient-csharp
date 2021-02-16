@@ -1,6 +1,8 @@
 ﻿using Brightlocal;
 using Brigthlocal;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace Examples
 {
@@ -64,7 +66,7 @@ namespace Examples
                     { "name", "Le Bernardin" },
                     { "schedule", "Adhoc" },
                     { "search-terms", "Restaurant\nfood+nyc\ndelivery+midtown+manhattan" },
-                    { "website-addresses", "['le-bernardin.com','le-bernardin2.com']" },
+                    { "website-addresses", JsonConvert.SerializeObject(new List<string> { "le-bernardin.com", "le-bernardin.ca"  }) },
                     { "search-engines", "google,google-mobile,google-local,bing,bing-local" }
 
         };
@@ -82,7 +84,7 @@ namespace Examples
                     { "name", "Le Bernardin" },
                     { "schedule", "Adhoc" },
                     { "search-terms", "Restaurant\nfood+nyc\ndelivery+midtown+manhattan" },
-                    { "website-addresses", "['le-bernardin.com','le-bernardin2.com']" },
+                    { "website-addresses", JsonConvert.SerializeObject(new List<string> { "le-bernardin.com", "le-bernardin.ca"  }) },
                     { "search-engines", "google,google-mobile,google-local,bing,bing-local" }
 
         };

@@ -6,7 +6,6 @@ namespace Examples
 {
     class ClientsExample
     {
-
         public static void Process(string apiKey, string apiSecret)
         {
             do
@@ -43,6 +42,7 @@ namespace Examples
                 }
             } while (true);
         }
+
         private static void AddClient(string apiKey, string apiSecret)
         {
             Api api = new Api(apiKey, apiSecret);
@@ -53,8 +53,8 @@ namespace Examples
                 };
             Response response = api.Post("/v1/clients-and-locations/clients", parameters);
             Console.WriteLine(response.GetContent());
-
         }
+
         private static void UpdateClient(string apiKey, string apiSecret)
         {
             Api api = new Api(apiKey, apiSecret);
@@ -66,8 +66,8 @@ namespace Examples
                 };
             Response response = api.Put("/v1/clients-and-locations/clients/" + clientId, parameters);
             Console.WriteLine(response.GetContent());
-
-        } 
+        }
+        
         private static void DeleteClient(string apiKey, string apiSecret)
         {
             Api api = new Api(apiKey, apiSecret);
@@ -76,14 +76,15 @@ namespace Examples
             Response response = api.Delete("/v1/clients-and-locations/clients/" + clientId, parameters);
             Console.WriteLine("Successfully deleted client");
         }  
+
         private static void GetClient(string apiKey, string apiSecret)
         {
             Api api = new Api(apiKey, apiSecret);
             string clientId = "197908";
-            Parameters parameters = new Parameters { };
-            Response response = api.Get("/v1/clients-and-locations/clients/" + clientId, parameters);
+            Response response = api.Get("/v1/clients-and-locations/clients/" + clientId);
             Console.WriteLine(response.GetContent());
-        }   
+        }
+        
         private static void SearchClients(string apiKey, string apiSecret)
         {
             Api api = new Api(apiKey, apiSecret);
@@ -93,6 +94,5 @@ namespace Examples
             Response response = api.Get("/v1/clients-and-locations/clients/search", parameters);
             Console.WriteLine(response.GetContent());
         }
-
     }
 }

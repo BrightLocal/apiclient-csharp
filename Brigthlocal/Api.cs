@@ -11,6 +11,7 @@ namespace Brightlocal
 {
     public class Api
     {
+        private const string JSON_FORMAT = "application/json";
         /** expiry can't be more than 30 minutes (1800 seconds) */
         private const int MAX_EXPIRY = 1800;
         /** API endpoint URL */
@@ -95,7 +96,6 @@ namespace Brightlocal
             return new Response(response);
         }
 
-
         // Create base 64 sha1 encrypted signature
         private static string CreateSignature(string apiKey, string secretKey, double expires)
         {
@@ -105,9 +105,7 @@ namespace Brightlocal
             using (var hmacsha1 = new HMACSHA1(keyByte))
             {
                 byte[] hashmessage = hmacsha1.ComputeHash(messageBytes);
-                string signature = Convert.ToBase64String(hashmessage);
-                return signature;
-                /*return HttpUtility.UrlEncode(signature);*/
+                return Convert.ToBase64String(hashmessage);
             }
         }
 
@@ -121,54 +119,30 @@ namespace Brightlocal
 
         private static RestRequest GetApiRequest(Method method, string url, string apiKey, string sig, double expires, Parameters parameters)
         {
-            // Create a new restsharp request
             RestRequest request = new RestRequest(url, method);
-            // Add appropriate headers to request
             request
-                .AddHeader("Content-Type", "application/json")
-                .AddHeader("Accept", "application/json")
-                .AddHeader("content-type", "application/x-www-form-urlencoded")
-                // Add key, sig and expires to request
-                .AddParameter("api-key", apiKey)
-                .AddParameter("sig", sig)
-                .AddParameter("expires", expires);
-
-            if (parameters != null)
+                .AddHeader("Content-Type", JSON_FORMAT)
+                .AddHeader("Accept", JSON_FORMAT);
+            if (parameters == null)
             {
-                foreach (KeyValuePair<string, object> prop in parameters)
+                parameters = new Parameters();
+            }
+            parameters.Add("api-key", apiKey);
+            parameters.Add("sig", sig);
+            parameters.Add("expires", expires);
+
+            if (method == Method.GET)
+            {
+                foreach (KeyValuePair<string, object> kvp in parameters)
                 {
-                    request.AddParameter(prop.Key, prop.Value);
+                    request.AddParameter(kvp.Key, kvp.Value);
                 }
             }
-            // Loop through the parameters passed in as a dictionary and add each one to a dynamic object
-            /* 
-                 ExpandoObject eo = new ExpandoObject();
-                 ICollection<KeyValuePair<string, object>> eoColl = (ICollection<KeyValuePair<string, object>>)eo;
-                 foreach (KeyValuePair<string, object> kvp in parameters)
-                 {
-                     Console.WriteLine(kvp.Value.GetType().Name);
-                     Console.WriteLine(kvp.Value.GetType());
-                     Console.WriteLine(typeof(List<>));
-                     if (kvp.Value.GetType() == typeof(List<Object>))
-                     {
-                         Console.WriteLine("lis");
-                         kvp.Value = JsonConvert.SerializeObject(kvp.Value);
-
-                     }
-                     else
-                     {
-                        eoColl.Add(kvp);
-                     }
-
-                 }
-                 dynamic eoDynamic = eo;
-
-                 // Add each parameter to restsharp request
-                 foreach (var prop in eoDynamic)
-                 {
-                     request.AddParameter(prop.Key, prop.Value);
-                 }
-             }*/            
+            else
+            {
+                request.RequestFormat = DataFormat.Json;
+                request.AddJsonBody(parameters);
+            }
             return request;
         }
     }
