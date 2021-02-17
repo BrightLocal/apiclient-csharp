@@ -1,6 +1,5 @@
 ﻿using Brightlocal;
 using Brigthlocal;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -139,9 +138,10 @@ namespace Examples
             Console.WriteLine(response.GetContent());
 
         }
+
         private static void UpdateLocation(string apiKey, string apiSecret, int locationId)
         {
-            Api api = new Api(apiKey, apiSecret);          
+            Api api = new Api(apiKey, apiSecret);
             Parameters parameters = new Parameters
                 {
                     { "name", "Le Bernardin" },
@@ -169,6 +169,7 @@ namespace Examples
             Console.WriteLine(response.GetContent());
 
         }
+
         private static void DeleteLocation(string apiKey, string apiSecret, int locationId)
         {
             Api api = new Api(apiKey, apiSecret);
@@ -176,6 +177,10 @@ namespace Examples
             if (response.IsSuccess())
             {
                 Console.WriteLine("Location successfully deleted.");
+            }
+            else
+            {
+                Console.WriteLine(response.GetContent());
             }
         }
 

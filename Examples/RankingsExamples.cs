@@ -46,8 +46,8 @@ namespace Examples
                     ["country"] = "USA",
                     ["google-location"] = "New York, NY",
                     ["search-term"] = "restaurant new york" ,
-                    ["urls"] = JsonConvert.SerializeObject(new List<string> { "le-bernardin.com" }) ,
-                    ["business-names"] = JsonConvert.SerializeObject(new List<string>() { "Le Bernardin" })
+                    ["urls"] = new List<string> { "le-bernardin.com" } ,
+                    ["business-names"] = new List<string>() { "Le Bernardin" }
                 },
                 new Parameters
                 {
@@ -55,8 +55,8 @@ namespace Examples
                     ["country"] = "USA",
                     ["google-location"] = "New York, NY",
                     ["search-term"] = "restaurant manhattan",
-                    ["urls"] = JsonConvert.SerializeObject( new List<string> { "le-bernardin.com" }),
-                    ["business-names"] = JsonConvert.SerializeObject( new List<string>() { "Le Bernardin" })
+                    ["urls"] = new List<string> { "le-bernardin.com" },
+                    ["business-names"] = new List<string>() { "Le Bernardin" }
                 },
                 new Parameters
                 {
@@ -64,8 +64,8 @@ namespace Examples
                     ["country"] = "USA",
                     ["google-location"] = "New York, NY",
                     ["search-term"] = "restaurant 10019",
-                    ["urls"] = JsonConvert.SerializeObject(new List<string> { "le-bernardin.com" }),
-                    ["business-names"] = JsonConvert.SerializeObject(new List<string>() { "Le Bernardin" })
+                    ["urls"] = new List<string> { "le-bernardin.com" },
+                    ["business-names"] = new List<string>() { "Le Bernardin" }
                 }
             };
 
@@ -114,9 +114,9 @@ namespace Examples
                 ["search-engine"] = "google",
                 ["country"] = "USA",
                 ["google-location"] = "New York, NY",
-                ["search-terms"] = JsonConvert.SerializeObject(searches),
-                ["urls"] = JsonConvert.SerializeObject(new List<string> { "le-bernardin.com" }),
-                ["business-names"] = JsonConvert.SerializeObject(new List<string>() { "Le Bernardin" })
+                ["search-terms"] = searches,
+                ["urls"] = new List<string> { "le-bernardin.com" },
+                ["business-names"] = new List<string>() { "Le Bernardin" }
             };
             try
             {

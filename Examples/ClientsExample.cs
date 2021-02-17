@@ -74,7 +74,14 @@ namespace Examples
             string clientId = "197904";
             Parameters parameters = new Parameters { };
             Response response = api.Delete("/v1/clients-and-locations/clients/" + clientId, parameters);
-            Console.WriteLine("Successfully deleted client");
+            if (response.IsSuccess())
+            {
+                Console.WriteLine("Successfully deleted client");
+            }
+            else
+            {
+                Console.WriteLine(response.GetContent());
+            }
         }  
 
         private static void GetClient(string apiKey, string apiSecret)
