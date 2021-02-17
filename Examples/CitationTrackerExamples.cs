@@ -1,12 +1,14 @@
 ﻿using Brightlocal;
+using Brigthlocal.Exceptions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
 namespace Examples
 {
-    class ReputationManagerExamples
-    {     
+    class CitationTrackerExamples
+    {
+
         public static void Process(string apiKey, string apiSecret)
         {
             do

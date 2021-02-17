@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
+using System;
 using System.Linq;
 
 namespace Brigthlocal
@@ -20,7 +21,14 @@ namespace Brigthlocal
 
         public dynamic GetContent()
         {
-            return JsonConvert.DeserializeObject(response.Content);
+            try
+            {
+                return JsonConvert.DeserializeObject(response.Content);
+            } catch (Exception)
+            {
+                return response.Content;
+            }
+            
         }
 
         public bool IsSuccess()
@@ -29,6 +37,11 @@ namespace Brigthlocal
             if (content.success != null)
             {
                 return (bool)content.success;
+            }
+
+            if (content.errors != null)
+            {
+                return false;
             }
             return successResponseCodes.Contains(GetResponseCode());
         }

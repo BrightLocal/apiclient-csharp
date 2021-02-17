@@ -27,7 +27,8 @@ namespace Examples
                         break;
                     case "delete report":
                     case "3":
-                        DeleteReport(apiKey, apiSecret);
+                        int reportToDelete = Program.GetIntegerValue("What report you want to delete?");
+                        DeleteReport(apiKey, apiSecret, reportToDelete);
                         break;
                     case "get all reports":
                     case "4":
@@ -57,16 +58,17 @@ namespace Examples
                 }
             } while (true);
         }
+        
         private static void AddReport(string apiKey, string apiSecret)
         {
             Api api = new Api(apiKey, apiSecret);
             Parameters parameters = new Parameters
                 {
-                    { "location-id", 1},
+                    { "location-id", 1914035},
                     { "name", "Le Bernardin" },
                     { "schedule", "Adhoc" },
                     { "search-terms", "Restaurant\nfood+nyc\ndelivery+midtown+manhattan" },
-                    { "website-addresses", JsonConvert.SerializeObject(new List<string> { "le-bernardin.com", "le-bernardin.ca"  }) },
+                    { "website-addresses", new List<string> { "le-bernardin.com", "le-bernardin.ca" } },
                     { "search-engines", "google,google-mobile,google-local,bing,bing-local" }
 
         };
@@ -74,17 +76,18 @@ namespace Examples
             Console.WriteLine(response.GetContent());
 
         }
+        
         private static void UpdateReport(string apiKey, string apiSecret)
         {
             Api api = new Api(apiKey, apiSecret);
             Parameters parameters = new Parameters
                 {
-                    { "location-id", 1},
-                    { "campaign-id", 9907},
+                    { "location-id", 1 },
+                    { "campaign-id", 9907 },
                     { "name", "Le Bernardin" },
                     { "schedule", "Adhoc" },
                     { "search-terms", "Restaurant\nfood+nyc\ndelivery+midtown+manhattan" },
-                    { "website-addresses", JsonConvert.SerializeObject(new List<string> { "le-bernardin.com", "le-bernardin.ca"  }) },
+                    { "website-addresses", new List<string> { "le-bernardin.com", "le-bernardin.ca" } },
                     { "search-engines", "google,google-mobile,google-local,bing,bing-local" }
 
         };
@@ -92,15 +95,23 @@ namespace Examples
             Console.WriteLine(response.GetContent());
 
         }
-        private static void DeleteReport(string apiKey, string apiSecret)
+        private static void DeleteReport(string apiKey, string apiSecret, int reportId)
         {
             Api api = new Api(apiKey, apiSecret);
             Parameters parameters = new Parameters {
-                   { "campaign-id", 9907 }
+                   { "campaign-id", reportId }
             };
             Response response = api.Post("/v2/lsrc/delete", parameters);
-            Console.WriteLine("Successfully deleted report");
+            if (response.IsSuccess())
+            {
+                Console.WriteLine("Successfully deleted report");
+            }
+            else
+            {
+                Console.WriteLine(response.GetContent());
+            }
         }
+        
         private static void GetAllReports(string apiKey, string apiSecret)
         {
             Api api = new Api(apiKey, apiSecret);
@@ -108,6 +119,7 @@ namespace Examples
             Response response = api.Get("v2/lsrc/get-all", parameters);
             Console.WriteLine(response.GetContent());
         }
+        
         private static void GetReport(string apiKey, string apiSecret)
         {
             Api api = new Api(apiKey, apiSecret);
@@ -117,6 +129,7 @@ namespace Examples
             Response response = api.Get("/v2/lsrc/get", parameters);
             Console.WriteLine(response.GetContent());
         }
+
         private static void RunReport(string apiKey, string apiSecret)
         {
             Api api = new Api(apiKey, apiSecret);
@@ -126,6 +139,7 @@ namespace Examples
             Response response = api.Post("/v2/lsrc/run", parameters);
             Console.WriteLine(response.GetContent());
         }
+
         private static void GetReportHistory(string apiKey, string apiSecret)
         {
             Api api = new Api(apiKey, apiSecret);
@@ -135,6 +149,7 @@ namespace Examples
             Response response = api.Get("/v2/lsrc/history/get", parameters);
             Console.WriteLine(response.GetContent());
         }
+
         private static void GetReportResults(string apiKey, string apiSecret)
         {
             Api api = new Api(apiKey, apiSecret);
@@ -144,6 +159,5 @@ namespace Examples
             Response response = api.Get("/v2/lsrc/results/get", parameters);
             Console.WriteLine(response.GetContent());
         }
-
     }
 }
