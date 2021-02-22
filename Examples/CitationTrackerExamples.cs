@@ -1,4 +1,5 @@
 ﻿using Brightlocal;
+using Brigthlocal;
 using Brigthlocal.Exceptions;
 using Newtonsoft.Json;
 using System;
@@ -13,9 +14,8 @@ namespace Examples
         {
             do
             {
-                Console.WriteLine(@"Now you can: 'add report' or 1, 'update report' or 2  'get report' or 3, 'delete report' or 4, 'get reports or 5," +
-                    "'search reports' or 6, 'get reviews' or 7, 'get reviews count' or 8, 'get growth' or 9, 'get directories' or 10," +
-                    "'get directory stats' or 11, 'get star counts' or 12, exit or 0");
+                Console.WriteLine(@"For CT reports now you can: 'add report' or 1, 'update report' or 2  'get report' or 3, 'delete report' or 4, 'get reports or 5," +
+                    "'get all reports' or 6, 'run report' or 7, 'get report result' or 8, exit or 0");
 
 
                 string command = Console.ReadLine();
@@ -27,8 +27,7 @@ namespace Examples
                         break;
                     case "update report":
                     case "2":
-                        int reportIdUpdate = Program.GetIntegerValue("Enter report id that you want to update");
-                        UpdateReport(apiKey, apiSecret, reportIdUpdate);
+                        UpdateReport(apiKey, apiSecret);
                         break;
                     case "get report":
                     case "3":
@@ -44,40 +43,20 @@ namespace Examples
                     case "5":
                         GetReports(apiKey, apiSecret);
                         break;
-
-                    case "search reports":
+                    case "get all reports":
                     case "6":
-                        SearchReports(apiKey, apiSecret);
+                        int locationId = Program.GetIntegerValue("Enter location id from what you want to CT reports");
+                        GetAllReports(apiKey, apiSecret, locationId);
                         break;
-                    case "get reviews":
+                    case "run report":
                     case "7":
-                        int reportIdReviews = Program.GetIntegerValue("Enter report id that you want to get reviews");
-                        GetReviews(apiKey, apiSecret, reportIdReviews);
-                        break;
-                    case "get reviews count":
+                        int reportIdRun = Program.GetIntegerValue("Enter report id that you want to run");
+                        RunReport(apiKey, apiSecret, reportIdRun);
+                        break;                    
+                    case "get report result":
                     case "8":
-                        int reportIdReviewsCount = Program.GetIntegerValue("Enter report id that you want to get reviews count");
-                        GetReviewsCount(apiKey, apiSecret, reportIdReviewsCount);
-                        break;
-                    case "get growth":
-                    case "9":
-                        int reportIdgrows = Program.GetIntegerValue("Enter report id that you want to get reviews count");
-                        GetGrowth(apiKey, apiSecret, reportIdgrows);
-                        break;
-                    case "get directories":
-                    case "10":
-                        int reportIdDirectories = Program.GetIntegerValue("Enter report id that you want to get reviews count");
-                        GetDirectories(apiKey, apiSecret, reportIdDirectories);
-                        break;
-                    case "get directory stats":
-                    case "11":
-                        int reportIdStats = Program.GetIntegerValue("Enter report id that you want to get reviews count");
-                        GetDirectoryStats(apiKey, apiSecret, reportIdStats);
-                        break;
-                    case "get star counts":
-                    case "12":
-                        int reportIdStars = Program.GetIntegerValue("Enter report id that you want to get reviews count");
-                        GetDirectoryStars(apiKey, apiSecret, reportIdStars);
+                        int reportIdGet = Program.GetIntegerValue("Enter report id that you want to get result");
+                        GetReportResult(apiKey, apiSecret, reportIdGet);
                         break;
                     case "exit":
                         return;
@@ -90,73 +69,63 @@ namespace Examples
 
         private static void AddReport(string apiKey, string apiSecret)
         {
-             Dictionary<string, object> directories = new Dictionary<string, object>()
-            {
-                {
-                    "google", new {
-                        url = "https://www.google.com/search?gl=us&hl=en&sxsrf=ALeKk00JY-ZkNTiMYNy5HejLxQSpbHyYGQ%3A1612777965993&ei=7QkhYKSBPPDJrgSu47SwCw&q=mcdonalds&gs_ssp=eJzj4tTP1TcwT68sMFdgNGB0YPDizE1Oyc9LzEkpBgBbWwdn&oq=MacDonalds&gs_lcp=CgZwc3ktYWIQARgAMg0ILhDHARCjAhBDEJMCMgcIABAKEMsBMgcIABAKEMsBMgcIABAKEMsBMgcIABDJAxAKMgUIABCSAzIHCAAQChDLATICCAAyBwgAEAoQywEyBAgAEAo6BwgAEEcQsAM6BAgjECc6CgguEMcBEK8BEEM6CAguEMcBEKMCOgcIIxDqAhAnOgQIABBDOgQILhBDOgoILhDHARCjAhBDOgIILjoFCAAQkQI6CAguEMcBEK8BOgUIABDLAToFCC4QywFQuCdY4E9gmWFoA3ACeACAAecBiAHWFJIBBjAuMTAuNJgBAKABAaoBB2d3cy13aXqwAQrIAQjAAQE&sclient=psy-ab",
-                        include = true
-                    }
-                }
-            }; 
             Api api = new Api(apiKey, apiSecret);
             Parameters parameters = new Parameters
             {
-                { "location-id", 738649 },
+                { "location-id", 1707816 },
                 { "report-name", "Le Bernardin" },
                 { "business-name", "Le Bernardin" },
-                { "contact-telephone", "+1 212-554-1515" },
-                { "address1", "155 West 51st Street" },
-                { "city", "New York" },
+                { "phone", "+1 212-554-1515" },
+                { "address-1", "155 West 51st Street" },
+                { "business-location", "New York, NY" },
                 { "postcode", "10019" },
-                { "country", "USA" },
-                { "directories", directories }
+                { "website", "le-bernardin.com" },
+                { "business-type", "Restaurant" },
+                { "state-code", "NY" },
+                { "primary-location", "10019" },
             };
 
-           dynamic response = api.Post("v4/rf/add", parameters).GetContent();
-            Console.WriteLine(response);            
+            dynamic response = api.Post("v2/ct/add", parameters).GetContent();
+            Console.WriteLine(response);
         }
 
-        private static void UpdateReport(string apiKey, string apiSecret, int reportId)
+        private static void UpdateReport(string apiKey, string apiSecret)
         {
             Api api = new Api(apiKey, apiSecret);
-            dynamic directories = new
-            {
-                google = new
-                {
-                    url = "https://www.google.com/search?gl=us&hl=en&sxsrf=ALeKk00JY-ZkNTiMYNy5HejLxQSpbHyYGQ%3A1612777965993&ei=7QkhYKSBPPDJrgSu47SwCw&q=mcdonalds&gs_ssp=eJzj4tTP1TcwT68sMFdgNGB0YPDizE1Oyc9LzEkpBgBbWwdn&oq=MacDonalds&gs_lcp=CgZwc3ktYWIQARgAMg0ILhDHARCjAhBDEJMCMgcIABAKEMsBMgcIABAKEMsBMgcIABAKEMsBMgcIABDJAxAKMgUIABCSAzIHCAAQChDLATICCAAyBwgAEAoQywEyBAgAEAo6BwgAEEcQsAM6BAgjECc6CgguEMcBEK8BEEM6CAguEMcBEKMCOgcIIxDqAhAnOgQIABBDOgQILhBDOgoILhDHARCjAhBDOgIILjoFCAAQkQI6CAguEMcBEK8BOgUIABDLAToFCC4QywFQuCdY4E9gmWFoA3ACeACAAecBiAHWFJIBBjAuMTAuNJgBAKABAaoBB2d3cy13aXqwAQrIAQjAAQE&sclient=psy-ab",
-                    include = true
-                },
-                yelp = new
-                {
-                    url = "",
-                    include = false
-                }
-            };
-
             Parameters parameters = new Parameters
             {
-                { "location-id", 738649 },
+                { "location-id", 971017 },
+                { "report-id", 998579 },
                 { "report-name", "Le Bernardin updated" },
-                { "directories", JsonConvert.SerializeObject(directories) }
+                { "business-name", "Le Bernardin" },
+                { "phone", "+1 212-554-1515" },
+                { "address-1", "155 West 51st Street" },
+                { "business-location", "New York, NY" },
+                { "postcode", "10019" },
+                { "website", "le-bernardin.com" },
+                { "business-type", "Restaurant" },
+                { "state-code", "NY" },
+                { "primary-location", "10019" },
             };
 
-            dynamic reviews = api.Put("v4/rf/" + reportId, parameters).GetContent();
-            Console.WriteLine(reviews);
+            dynamic response = api.Post("v2/ct/update", parameters).GetContent();
+            Console.WriteLine(response);
         }
 
         private static void DeleteReport(string apiKey, string apiSecret, int reportId)
         {
             Api api = new Api(apiKey, apiSecret);
-            dynamic status = api.Delete("v4/rf/" + reportId).GetContent();
-            Console.WriteLine(status);
+            Response status = api.Post(
+                "v2/ct/delete",
+                new Parameters { { "report-id", reportId } });
+            Console.WriteLine(status.GetContent());
         }
 
         private static void GetReport(string apiKey, string apiSecret, int reportId)
         {
             Api api = new Api(apiKey, apiSecret);
-            dynamic report = api.Get("v4/rf/" + reportId).GetContent();
-            Console.WriteLine(report);
+            Response report = api.Get("v2/ct/get", new Parameters { { "report-id", reportId } });
+            Console.WriteLine(report.GetContent());
         }
 
         private static void GetReports(string apiKey, string apiSecret)
@@ -170,61 +139,37 @@ namespace Examples
             Console.WriteLine(report);
         }
 
-        private static void SearchReports(string apiKey, string apiSecret)
+        private static void GetAllReports(string apiKey, string apiSecret, int locationId)
         {
             Api api = new Api(apiKey, apiSecret);
             Parameters parameters = new Parameters
             {
-                { "q", "Le Bernardin" }
+                { "location-id", locationId }
             };
-            dynamic report = api.Get("v4/rf/search", parameters).GetContent();
-            Console.WriteLine(report);
+            Response reports = api.Get("v2/ct/get-all", parameters);
+            Console.WriteLine(reports.GetContent());
         }
 
-        private static void GetReviews(string apiKey, string apiSecret, int reportId)
+        private static void RunReport(string apiKey, string apiSecret, int reportId)
         {
 
             Api api = new Api(apiKey, apiSecret);
             Parameters parameters = new Parameters
             {
-                { "limit", 100 }
+                { "report-id", reportId }
             };
-            dynamic reviews = api.Get("v4/rf/" + reportId + "/reviews", parameters).GetContent();
-            Console.WriteLine(reviews);
+            Response response = api.Post("v2/ct/run", parameters);
+            Console.WriteLine(response.GetContent());
         }
 
-        private static void GetReviewsCount(string apiKey, string apiSecret, int reportId)
+        private static void GetReportResult(string apiKey, string apiSecret, int reportId)
         {
             Api api = new Api(apiKey, apiSecret);
-            dynamic response = api.Get("v4/rf/" + reportId + "/reviews/count").GetContent();
-            Console.WriteLine(response);
-        }
-        private static void GetGrowth(string apiKey, string apiSecret, int reportId)
-        {
-            Api api = new Api(apiKey, apiSecret);
-            dynamic grows = api.Get("v4/rf/" + reportId + "/reviews/growth").GetContent();
-            Console.WriteLine(grows);
-        }
-
-        private static void GetDirectories(string apiKey, string apiSecret, int reportId)
-        {
-            Api api = new Api(apiKey, apiSecret);
-            dynamic directories = api.Get("v4/rf/" + reportId + "/directories").GetContent();
-            Console.WriteLine(directories);
-        }
-
-        private static void GetDirectoryStats(string apiKey, string apiSecret, int reportId)
-        {
-            Api api = new Api(apiKey, apiSecret);
-            dynamic response = api.Get("v4/rf/" + reportId + "/directories/stats").GetContent();
-            Console.WriteLine(response);
-        } 
-        
-        private static void GetDirectoryStars(string apiKey, string apiSecret, int reportId)
-        {
-            Api api = new Api(apiKey, apiSecret);
-            dynamic response = api.Get("v4/rf/" + reportId + "/stars/count").GetContent();
-            Console.WriteLine(response);
+            Response response = api.Get("v2/ct/get-results", new Parameters
+            {
+                { "report-id", reportId }
+            });
+            Console.WriteLine(response.GetContent());
         }
     }
 }
