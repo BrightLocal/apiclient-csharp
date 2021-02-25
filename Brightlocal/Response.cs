@@ -3,12 +3,13 @@ using RestSharp;
 using System;
 using System.Linq;
 
-namespace Brigthlocal
+namespace Brightlocal
 {
     public class Response
     {
         public IRestResponse response;
         private readonly int[] successResponseCodes = { 200, 201 };
+
         public Response(IRestResponse response)
         {
             this.response = response;

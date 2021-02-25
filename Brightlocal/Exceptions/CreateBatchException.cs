@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Brigthlocal.Exceptions
+namespace Brightlocal.Exceptions
 {
     class CreateBatchException : GeneralException
     {

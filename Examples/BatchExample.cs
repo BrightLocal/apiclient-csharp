@@ -1,15 +1,9 @@
 ﻿using Brightlocal;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Examples
 {
     class BatchExample
     {
-
         public static void Process(string apiKey, string apiSecret)
         {
             do

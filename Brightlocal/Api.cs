@@ -1,17 +1,14 @@
-﻿using Brigthlocal;
-using Brigthlocal.Exceptions;
-using Newtonsoft.Json;
+﻿using Brightlocal.Exceptions;
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Security.Cryptography;
 
 namespace Brightlocal
 {
     public class Api
     {
-        private const string JSON_FORMAT = "application/json";
+        //private const string JSON_FORMAT = "application/json";
         /** expiry can't be more than 30 minutes (1800 seconds) */
         private const int MAX_EXPIRY = 1800;
         /** API endpoint URL */
@@ -31,6 +28,8 @@ namespace Brightlocal
             {
                 this.endpoint = new Uri(endpoint);
             }
+            // set base url   
+            client.BaseUrl = this.endpoint;
         }
 
         public Response Get(string resource, Parameters parametrs = null)
@@ -76,12 +75,32 @@ namespace Brightlocal
             return new Batch(this, batchId);
         }
 
+        public Response PostImage(string resource, string filePath)
+        {
+            double expires = CreateExpiresParameter();
+
+            // Generate encoded signature
+            string signature = CreateSignature(apiKey, apiSecret, expires);
+            // Generate the request
+            RestRequest request = new RestRequest(resource, Method.POST);
+            request.AddParameter("api-key", apiKey);
+            request.AddParameter("sig", signature);
+            request.AddParameter("expires", expires);
+            request.AddFile("file", filePath);
+            // execure the request
+            IRestResponse response = client.Execute(request);
+            // deserialize the response
+            if (response.ResponseStatus != ResponseStatus.Completed)
+            {
+                throw new GeneralException(response.ErrorMessage, new Exception());
+            }
+            return new Response(response);
+        }
+
         private Response Call(string resource, Parameters parametrs, Method method)
         {
             double expires = CreateExpiresParameter();
-            // set base url   
-            client.BaseUrl = endpoint;
-
+           
             // Generate encoded signature
             string signature = CreateSignature(apiKey, apiSecret, expires);
             // Generate the request
@@ -120,9 +139,6 @@ namespace Brightlocal
         private static RestRequest GetApiRequest(Method method, string url, string apiKey, string sig, double expires, Parameters parameters)
         {
             RestRequest request = new RestRequest(url, method);
-            request
-                .AddHeader("Content-Type", JSON_FORMAT)
-                .AddHeader("Accept", JSON_FORMAT);
             if (parameters == null)
             {
                 parameters = new Parameters();

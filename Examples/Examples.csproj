@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BatchExample.cs" />
+    <Compile Include="CitationBuilderExamples.cs" />
     <Compile Include="LocalSearchAuditExample.cs" />
     <Compile Include="LocationsExample.cs" />
     <Compile Include="RankCheckerExamples.cs" />
@@ -66,9 +67,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Brigthlocal\Brigthlocal.csproj">
+    <ProjectReference Include="..\Brightlocal\Brightlocal.csproj">
       <Project>{7b4ba95c-2424-4c4b-a1d6-1fee98a94372}</Project>
-      <Name>Brigthlocal</Name>
+      <Name>Brightlocal</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

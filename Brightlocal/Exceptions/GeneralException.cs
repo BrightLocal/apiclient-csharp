@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Brigthlocal.Exceptions
+namespace Brightlocal.Exceptions
 {
     public class GeneralException: Exception
     {

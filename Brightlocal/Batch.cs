@@ -1,5 +1,5 @@
-﻿using Brigthlocal;
-using Brigthlocal.Exceptions;
+﻿using Brightlocal;
+using Brightlocal.Exceptions;
 
 namespace Brightlocal
 {
