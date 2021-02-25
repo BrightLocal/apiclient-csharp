@@ -48,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BatchExample.cs" />
+    <Compile Include="GetListSupportedDirectoriesExample.cs" />
+    <Compile Include="BusinessCategoriesExample.cs" />
     <Compile Include="CitationBuilderExamples.cs" />
     <Compile Include="LocalSearchAuditExample.cs" />
     <Compile Include="LocationsExample.cs" />

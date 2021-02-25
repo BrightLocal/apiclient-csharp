@@ -34,7 +34,7 @@ namespace Examples
                     case "stop":
                     case "5":
                         int batchIdForStop = Program.GetIntegerValue("Enter batch id that you want to stop");
-                        Delete(apiKey, apiSecret, batchIdForStop);
+                        Stop(apiKey, apiSecret, batchIdForStop);
                         break;
                     case "exit":
                         return;

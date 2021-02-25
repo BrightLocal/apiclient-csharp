@@ -1,5 +1,4 @@
 ﻿using Brightlocal;
-using Brightlocal;
 using System;
 using System.Collections.Generic;
 
