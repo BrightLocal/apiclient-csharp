@@ -19,15 +19,18 @@ namespace Examples
                         break;  
                     case "update client":
                     case "2":
-                        UpdateClient(apiKey, apiSecret);
+                        int clientId = Program.GetIntegerValue("Enter client id that you want to update");
+                        UpdateClient(apiKey, apiSecret, clientId);
                         break; 
                     case "delete client":
                     case "3":
-                        DeleteClient(apiKey, apiSecret);
+                        int clientIdDelete = Program.GetIntegerValue("Enter client id that you want to delete");
+                        DeleteClient(apiKey, apiSecret, clientIdDelete);
                         break;  
                     case "get client":
                     case "4":
-                        GetClient(apiKey, apiSecret);
+                        int clientIdGet = Program.GetIntegerValue("Enter client id that you want to get");
+                        GetClient(apiKey, apiSecret, clientIdGet);
                         break;  
                     case "search clients":
                     case "5":
@@ -54,10 +57,9 @@ namespace Examples
             Console.WriteLine(response.GetContent());
         }
 
-        private static void UpdateClient(string apiKey, string apiSecret)
+        private static void UpdateClient(string apiKey, string apiSecret, int clientId)
         {
             Api api = new Api(apiKey, apiSecret);
-            string clientId = "197905";
             Parameters parameters = new Parameters
                 {
                     { "name", "Le Bernardin" },
@@ -67,10 +69,9 @@ namespace Examples
             Console.WriteLine(response.GetContent());
         }
         
-        private static void DeleteClient(string apiKey, string apiSecret)
+        private static void DeleteClient(string apiKey, string apiSecret, int clientId)
         {
             Api api = new Api(apiKey, apiSecret);
-            string clientId = "197904";
             Parameters parameters = new Parameters { };
             Response response = api.Delete("/v1/clients-and-locations/clients/" + clientId, parameters);
             if (response.IsSuccess())
@@ -83,10 +84,9 @@ namespace Examples
             }
         }  
 
-        private static void GetClient(string apiKey, string apiSecret)
+        private static void GetClient(string apiKey, string apiSecret, int clientId)
         {
             Api api = new Api(apiKey, apiSecret);
-            string clientId = "197908";
             Response response = api.Get("/v1/clients-and-locations/clients/" + clientId);
             Console.WriteLine(response.GetContent());
         }

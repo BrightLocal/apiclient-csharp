@@ -1,5 +1,4 @@
 ﻿using Brightlocal;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -42,7 +41,6 @@ namespace Examples
                     case "5":
                         GetReports(apiKey, apiSecret);
                         break;
-
                     case "search reports":
                     case "6":
                         SearchReports(apiKey, apiSecret);
@@ -59,23 +57,23 @@ namespace Examples
                         break;
                     case "get growth":
                     case "9":
-                        int reportIdgrows = Program.GetIntegerValue("Enter report id that you want to get reviews count");
+                        int reportIdgrows = Program.GetIntegerValue("Enter report id that you want to get growth");
                         GetGrowth(apiKey, apiSecret, reportIdgrows);
                         break;
                     case "get directories":
                     case "10":
-                        int reportIdDirectories = Program.GetIntegerValue("Enter report id that you want to get reviews count");
+                        int reportIdDirectories = Program.GetIntegerValue("Enter report id that you want to get directories");
                         GetDirectories(apiKey, apiSecret, reportIdDirectories);
                         break;
                     case "get directory stats":
                     case "11":
-                        int reportIdStats = Program.GetIntegerValue("Enter report id that you want to get reviews count");
+                        int reportIdStats = Program.GetIntegerValue("Enter report id that you want to get directory stats");
                         GetDirectoryStats(apiKey, apiSecret, reportIdStats);
                         break;
                     case "get star counts":
                     case "12":
-                        int reportIdStars = Program.GetIntegerValue("Enter report id that you want to get reviews count");
-                        GetDirectoryStars(apiKey, apiSecret, reportIdStars);
+                        int reportIdStars = Program.GetIntegerValue("Enter report id that you want to get star counts");
+                        GetStarCounts(apiKey, apiSecret, reportIdStars);
                         break;
                     case "exit":
                         return;
@@ -136,7 +134,7 @@ namespace Examples
             {
                 { "location-id", 738649 },
                 { "report-name", "Le Bernardin updated" },
-                { "directories", JsonConvert.SerializeObject(directories) }
+                { "directories", directories }
             };
 
             dynamic reviews = api.Put("v4/rf/" + reportId, parameters).GetContent();
@@ -218,7 +216,7 @@ namespace Examples
             Console.WriteLine(response);
         } 
         
-        private static void GetDirectoryStars(string apiKey, string apiSecret, int reportId)
+        private static void GetStarCounts(string apiKey, string apiSecret, int reportId)
         {
             Api api = new Api(apiKey, apiSecret);
             dynamic response = api.Get("v4/rf/" + reportId + "/stars/count").GetContent();

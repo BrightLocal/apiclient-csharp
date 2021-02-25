@@ -52,7 +52,7 @@ namespace Examples
                     case "get report result":
                     case "8":
                         int reportIdGet = Program.GetIntegerValue("Enter report id that you want to get result");
-                        GetReportResult(apiKey, apiSecret, reportIdGet);
+                        GetReportResults(apiKey, apiSecret, reportIdGet);
                         break;
                     case "exit":
                         return;
@@ -158,7 +158,7 @@ namespace Examples
             Console.WriteLine(response.GetContent());
         }
 
-        private static void GetReportResult(string apiKey, string apiSecret, int reportId)
+        private static void GetReportResults(string apiKey, string apiSecret, int reportId)
         {
             Api api = new Api(apiKey, apiSecret);
             Response response = api.Get("v2/ct/get-results", new Parameters
