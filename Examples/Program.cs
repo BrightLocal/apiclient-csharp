@@ -18,7 +18,7 @@ namespace Examples
                 {
                     Console.WriteLine("Please enter a command. Supported command is 'batch' or 1, 'local directories' or 2," +
                         " 'reputation manager' or 3, 'reviews' or 4, 'rankings' or 5, 'offsite seo' or 6," +
-                        " 'clients' or 7, 'rank checker' or 8, 'locations' or 9, 'local search audit' or 10, 'citation tracker' or 11");
+                        " 'clients' or 7, 'rank checker' or 8, 'locations' or 9, 'local search audit' or 10, 'citation tracker' or 11, 'citation builder' or 12");
                     Console.WriteLine("Type 'exit' to go close application");
                     string command = Console.ReadLine();
                     switch (command.Trim())
@@ -67,6 +67,10 @@ namespace Examples
                         case "11":
                             CitationTrackerExamples.Process(apiKey, apiSecret);
                             break;
+                        case "citation builder":
+                        case "12":
+                            CitationBuilderExamples.Process(apiKey, apiSecret);
+                            break;
                         case "exit":
                             Environment.Exit(1);
                             break;
@@ -75,7 +79,7 @@ namespace Examples
                             break;
                     }
                 }
-                catch (Brigthlocal.Exceptions.GeneralException exception)
+                catch (Brightlocal.Exceptions.GeneralException exception)
                 {
                     Console.WriteLine(exception.Message);
                     Console.ReadLine();

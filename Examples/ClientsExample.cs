@@ -1,5 +1,4 @@
 ﻿using Brightlocal;
-using Brigthlocal;
 using System;
 
 namespace Examples

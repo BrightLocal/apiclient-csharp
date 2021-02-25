@@ -1,9 +1,5 @@
 ﻿using Brightlocal;
-using Brigthlocal;
-using Brigthlocal.Exceptions;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 
 namespace Examples
 {
