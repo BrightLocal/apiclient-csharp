@@ -10,11 +10,12 @@
     <RootNamespace>Brigthlocal</RootNamespace>
     <AssemblyName>Brigthlocal</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <TargetFramework>net47</TargetFramework>
+    <TargetFramework>net462</TargetFramework>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>2.0.0.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>2.0.0.14</Version>    
+    <Authors>Brigthlocal</Authors>
     <Product>Brigthlocal ApiWrapper</Product>
     <Copyright>Brigthlocal INC</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -24,8 +25,10 @@
     <Description>This library helps communicate with BrightLocal api faster</Description>
     <RepositoryUrl>https://github.com/BrightLocal/apiclient-csharp</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
-    <PackageTags>Brigthlocal, API, Wrapper,</PackageTags>
+    <PackageTags>BrightLocal SEO API Wrapper api-wrapper location seo-agency</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
+    <AssemblyVersion>2.0.0.14</AssemblyVersion>
+    <FileVersion>2.0.0.14</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -62,19 +65,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <!--<Compile Include="Api.cs" />
-    <Compile Include="Batch.cs" />
-    <Compile Include="Exceptions\GetResultException.cs" />
-    <Compile Include="Exceptions\CreateBatchException.cs" />
-    <Compile Include="Exceptions\StopBatchException.cs" />
-    <Compile Include="Exceptions\AddJobException.cs" />
-    <Compile Include="Exceptions\BatchNotCreatedException.cs" />
-    <Compile Include="Exceptions\BatchNotCommitedExeption.cs" />
-    <Compile Include="Exceptions\GeneralException.cs" />
-    <Compile Include="Parameters.cs" />
-    <Compile Include="Response.cs" />-->
-  </ItemGroup>
-  <ItemGroup>
     <None Include="logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -84,6 +74,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="readme.txt" pack="true" PackagePath="." />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
