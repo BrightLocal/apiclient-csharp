@@ -1,0 +1,1 @@
+﻿A c# wrapper class for consuming The BrightLocal api. Automatically generates the proper authentication, with the siganture and expires. Avoid the need to generate your own authentication signature.
