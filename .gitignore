@@ -2,7 +2,7 @@
 *.suo
 *.user
 *.sln.docstates
-
+/Examples/Program.cs
 # Visual Studio temp something
 .vs/
 .idea/*
