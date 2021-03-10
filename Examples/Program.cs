@@ -18,7 +18,7 @@ namespace Examples
                 {
                     Console.WriteLine("Please enter a command. Supported command is 'batch' or 1, 'local directories' or 2," +
                         " 'reputation manager' or 3, 'reviews' or 4, 'rankings' or 5, 'offsite seo' or 6," +
-                        " 'clients' or 7, 'rank checker' or 8, 'locations' or 9, 'local search audit' or 10, 'citation tracker' or 11, 'citation builder' or 12, 'business categories' or 13, 'get list of supported local directorie' or 14");
+                        " 'clients' or 7, 'rank checker' or 8, 'locations' or 9, 'local search audit' or 10, 'citation tracker' or 11, 'citation builder' or 12, 'business categories' or 13, 'get list of supported local directorie' or 14, 'google my business' or 15.");
                     Console.WriteLine("Type 'exit' to go close application");
                     string command = Console.ReadLine();
                     switch (command.Trim())
@@ -78,6 +78,10 @@ namespace Examples
                         case "get list of supported local directories":
                         case "14":
                             GetListSupportedDirectoriesExample.Process(apiKey, apiSecret);
+                            break;
+                        case "google my business":
+                        case "15":
+                            GoogleMyBusinessExample.Process(apiKey, apiSecret);
                             break;
                         case "exit":
                             Environment.Exit(1);

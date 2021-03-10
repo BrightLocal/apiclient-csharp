@@ -51,6 +51,7 @@
     <Compile Include="GetListSupportedDirectoriesExample.cs" />
     <Compile Include="BusinessCategoriesExample.cs" />
     <Compile Include="CitationBuilderExamples.cs" />
+    <Compile Include="GoogleMyBusinessExample.cs" />
     <Compile Include="LocalSearchAuditExample.cs" />
     <Compile Include="LocationsExample.cs" />
     <Compile Include="RankCheckerExamples.cs" />

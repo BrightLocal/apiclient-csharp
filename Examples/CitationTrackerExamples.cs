@@ -138,11 +138,7 @@ namespace Examples
         private static void GetAllReports(string apiKey, string apiSecret, int locationId)
         {
             Api api = new Api(apiKey, apiSecret);
-            Parameters parameters = new Parameters
-            {
-                { "location-id", locationId }
-            };
-            Response reports = api.Get("v2/ct/get-all", parameters);
+            Response reports = api.Get("v2/ct/get-all");
             Console.WriteLine(reports.GetContent());
         }
 

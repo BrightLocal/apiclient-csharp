@@ -158,11 +158,7 @@ namespace Examples
         private static void GetReports(string apiKey, string apiSecret)
         {
             Api api = new Api(apiKey, apiSecret);
-            Parameters parameters = new Parameters
-            {
-                { "location-id", 393135 }
-            };
-            dynamic report = api.Get("v4/rf", parameters).GetContent();
+            dynamic report = api.Get("v4/rf").GetContent();
             Console.WriteLine(report);
         }
 
